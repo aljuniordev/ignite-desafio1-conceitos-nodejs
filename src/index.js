@@ -88,7 +88,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
   const todosOperation = {
     id: uuidv4(),
     title: title,
-    deadline: new Date(deadline + " 00:00"),
+    deadline: deadline,
     done: false,
     created_at: new Date(new Date().setHours(0,0,0,0))
   };
@@ -120,7 +120,8 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
     userTodo.title = title;
   }
   if (title != null) {
-    userTodo.deadline = new Date(deadline + " 00:00");
+    //userTodo.deadline = new Date(deadline + " 00:00");
+    userTodo.deadline = deadline;
   }
 
   return response.status(200).send(userTodo);
@@ -168,7 +169,7 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
   const lineToBeDeleted = user.todos.indexOf(userToBeDeleted);
   user.todos.splice(lineToBeDeleted, 1);
 
-  return response.status(200).send();
+  return response.status(204).send();
 });
 
 module.exports = app;
