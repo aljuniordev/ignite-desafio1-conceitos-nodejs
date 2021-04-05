@@ -41,7 +41,7 @@ describe('Todos', () => {
         username: 'user2'
       });
 
-    const todoDate = "2021-01-01";
+    const todoDate = new Date();
 
     const response = await request(app)
       .post('/todos')
@@ -52,10 +52,9 @@ describe('Todos', () => {
       .set('username', userResponse.body.username)
       .expect(201);
 
-    const dateComp = new Date(todoDate + " 00:00");
-    expect(response.body).toMatchSnapshot({
+    expect(response.body).toMatchObject({
       title: 'test todo',
-      deadline: dateComp.toISOString(),
+      deadline: todoDate.toISOString(),
       done: false
     });
     expect(validate(response.body.id)).toBe(true);
@@ -70,7 +69,7 @@ describe('Todos', () => {
         username: 'user7'
       });
 
-    const todoDate = "2021-01-01";
+    const todoDate = new Date();
 
     const todoResponse = await request(app)
       .post('/todos')
@@ -87,11 +86,10 @@ describe('Todos', () => {
         deadline: todoDate
       })
       .set('username', userResponse.body.username);
-      
-    const dateComp = new Date(todoDate + " 00:00");
+
     expect(response.body).toMatchObject({
       title: 'update title',
-      deadline: dateComp.toISOString(),
+      deadline: todoDate.toISOString(),
       done: false
     });
   });
@@ -183,7 +181,7 @@ describe('Todos', () => {
     await request(app)
       .delete(`/todos/${todo1Response.body.id}`)
       .set('username', userResponse.body.username)
-      .expect(200);
+      .expect(204);
 
     const listResponse = await request(app)
       .get('/todos')

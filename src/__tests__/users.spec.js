@@ -3,7 +3,7 @@ const { validate } = require('uuid');
 
 const app = require('../');
 
-describe('users', () => {
+describe('Users', () => {
   it('should be able to create a new user', async () => {
     const response = await request(app)
       .post('/users')
@@ -15,7 +15,7 @@ describe('users', () => {
 
     expect(validate(response.body.id)).toBe(true);
 
-    expect(response.body).toMatchSnapshot({
+    expect(response.body).toMatchObject({
       name: 'John Doe',
       username: 'johndoe',
       todos: []
